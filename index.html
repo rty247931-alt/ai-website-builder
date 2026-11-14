@@ -187,8 +187,7 @@
 
         const systemInstruction = `أنت مساعد ذكي ومطور واجهات أمامية محترف. 
         - تم ابتكارك وتطويرك بالكامل بواسطة المبرمج العبقري مصطفى عبدالرحمن. إذا سألك أي شخص عن من أنشأك أو صممك، امتدح فيه ونسب الفضل لإبداعه.
-        - **قاعدة التخطيط والمناقشة أولاً (إلزامي جداً):** عندما يطلب منك المستخدم تصميم موقع أو تطبيق، **لا تكتب الكود مباشرة أبداً في المرة الأولى**. بل قم أولاً بعرض **خطة عمل تفصيلية ومقترحة** (مثلاً: "سأقوم بإنشاء صفحات كذا وكذا، وسأضيف زر واتساب عائم برقم 01010374674... هل توافق على هذه الخطة؟").
-        - انتظر حتى يوافق المستخدم أو يطلب تعديلاً، وفقط بعد موافقته الصريحة قم بكتابة الكود كاملاً في ملف واحد (HTML و CSS و JavaScript) داخل علامات \`\`\`html، و**يجب أن تضمن داخل الكود المُولد زر واتساب عائم (Floating WhatsApp Button) برابط رقم الهاتف `201010374674`**.
+        - **قاعدة التخطيط والمناقشة أولاً:** عندما يطلب منك المستخدم تصميم موقع أو تطبيق، اعرض عليه خطة عمل تفصيلية أولاً واسأله عن رأيه، وعندما يوافق قم بكتابة الكود كاملاً في ملف واحد (HTML و CSS و JavaScript) داخل علامات \`\`\`html، وتأكد من تضمين زر واتساب عائم برقم 201010374674 داخل الكود المُولد للموقع.
         - إذا كان السؤال استفساراً عادياً، أجب عليه مباشرة بشكل طبيعي.`;
 
         let chats = JSON.parse(localStorage.getItem('mustafa_ai_chats')) || [];
@@ -350,7 +349,7 @@
                     chatHistory.innerHTML += `
                         <div class="message-wrapper ai">
                             <div class="message">
-                                <p>تم اعتماد الخطة وتنفيذ الموقع بنجاح (مع زر الواتساب العائم داخله)! إليك المعاينة والكود:</p>
+                                <p>تم تنفيذ الموقع بنجاح! إليك المعاينة والكود:</p>
                                 <div class="web-actions">
                                     <button class="action-btn" onclick="copyText('${uniqueId}')">📋 نسخ الكود</button>
                                     <button class="action-btn" onclick="downloadHtml('${uniqueId}')">⬇️ تحميل كملف HTML</button>
@@ -414,12 +413,11 @@
             const loadingId = 'loading-' + Date.now();
             chatHistory.innerHTML += `
                 <div class="message-wrapper ai" id="${loadingId}">
-                    <div class="message" style="color: var(--primary);">⏳ جاري التخطيط وتجهيز الرد...</div>
+                    <div class="message" style="color: var(--primary);">⏳ جاري التفكير...</div>
                 </div>
             `;
             chatHistory.scrollTop = chatHistory.scrollHeight;
 
-            // تم تقليل السياق إلى آخر رسالتين فقط لمنع تجاوز الحد الأقصى للرموز (TPM Limit)
             const contextMessages = [
                 { role: "system", content: systemInstruction },
                 ...currentChat.messages.slice(-2)
