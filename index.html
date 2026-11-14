@@ -100,7 +100,7 @@
         .chat-history::-webkit-scrollbar { width: 6px; }
         .chat-history::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
 
-        .welcome-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; max-width: 750px; text-align: center; gap: 15px; animation: fadeIn 0.5s ease; }
+        .welcome-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; max-width: 750px; text-align: center; gap: 15px; animation: fadeIn 0.5s ease; margin: auto; }
         .welcome-screen h1 { font-size: 2rem; background: linear-gradient(to left, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .welcome-screen p { color: var(--text-muted); font-size: 1rem; }
         
@@ -234,7 +234,7 @@
         function renderWelcomeScreen() {
             const chatHistory = document.getElementById('chatHistory');
             chatHistory.innerHTML = `
-                <div class="welcome-screen">
+                <div class="welcome-screen" id="welcomeScreen">
                     <h1>كيف يمكنني مساعدتك اليوم؟</h1>
                     <p>اسألني في أي مجال، أو اطلب برمجة موقع وسأعرض عليك الخطة أولاً لنراجعها سوياً.</p>
                     <div class="suggestions">
@@ -326,7 +326,7 @@
 
         function appendMessageToUI(role, content, scroll = true) {
             const chatHistory = document.getElementById('chatHistory');
-            const welcome = chatHistory.querySelector('.welcome-screen');
+            const welcome = document.getElementById('welcomeScreen');
             if (welcome) welcome.remove();
 
             if (role === 'user') {
@@ -419,9 +419,10 @@
             `;
             chatHistory.scrollTop = chatHistory.scrollHeight;
 
+            // تم تقليل السياق إلى آخر رسالتين فقط لمنع تجاوز الحد الأقصى للرموز (TPM Limit)
             const contextMessages = [
                 { role: "system", content: systemInstruction },
-                ...currentChat.messages.slice(-10)
+                ...currentChat.messages.slice(-2)
             ];
 
             try {
